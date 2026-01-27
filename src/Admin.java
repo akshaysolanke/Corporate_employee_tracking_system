@@ -10,9 +10,9 @@ class connection extends Admin{
             System.out.println("1.class loaded");
 
             //connection establish
-            String url = "jdbc:mysql://localhost:3306/cet_project";
+            String url = "jdbc:mysql://localhost:3307/cet_project";
             String username="root";
-            String password="";
+            String password="root";
             cn = DriverManager.getConnection(url,username,password);
             System.out.println("2.Connection Established");
 
@@ -27,7 +27,7 @@ public class Admin {
 
     Connection cn;
     Statement st;
-    void access() throws SQLException
+    void access() throws SQLException,ClassNotFoundException
     {
         
         Scanner sc = new Scanner(System.in);
@@ -54,7 +54,7 @@ public class Admin {
         }
         
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception,ClassNotFoundException {
         connection e= new connection();
         e.con();
         e.access();
