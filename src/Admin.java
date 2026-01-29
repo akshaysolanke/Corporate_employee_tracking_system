@@ -57,17 +57,6 @@ public class Admin {
     public static void main(String[] args) throws Exception {
         connection e= new connection();
         e.con();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         e.access();
        
     }
