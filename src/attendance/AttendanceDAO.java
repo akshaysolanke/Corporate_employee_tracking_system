@@ -1,6 +1,6 @@
 package attendance;
 
-import app.dbconection;
+import app.Dbconection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class AttendanceDAO {
 
-	    dbconection db = new dbconection();   
+	    Dbconection db = new Dbconection();   
 	    Connection con;
 		Scanner sc = new Scanner(System.in);
 	    // Mark Attendance

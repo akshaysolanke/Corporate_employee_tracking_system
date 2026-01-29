@@ -1,7 +1,7 @@
 package app;
 import java.sql.*;
 
-public class dbconection  {
+public class Dbconection  {
     Connection cn;
     Statement st;
      public void con() throws ClassNotFoundException, SQLException

@@ -3,7 +3,7 @@ import attendance.AttendanceMain;
 import java.sql.*;
 import java.util.Scanner;
 
-public class emp {
+public class Emp {
 
     Scanner sc = new Scanner(System.in);
     AttendanceMain attendence = new AttendanceMain();

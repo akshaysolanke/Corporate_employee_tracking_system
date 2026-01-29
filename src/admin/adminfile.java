@@ -3,12 +3,12 @@ package admin;
 import java.sql.*;
 import java.util.*;
 
-public class adminfile {
+public class Adminfile {
 
     Connection cn;
-     Statement st;
-     Scanner sc;
-
+    Scanner sc;
+    Statement st;
+    
     //Admin Access logic
    public void access() throws SQLException,ClassNotFoundException
     {

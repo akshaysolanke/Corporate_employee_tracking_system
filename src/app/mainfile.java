@@ -1,20 +1,20 @@
 package app;
 
-import admin.adminfile;
-import employee.emp;
+import admin.Adminfile;
+import employee.Emp;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class mainfile {
+public class Mainfile {
    
     Connection cn;
     Scanner sc;
     public static void main(String[] args) throws ClassNotFoundException, SQLException,Exception {
         
-        adminfile admin = new adminfile();
-        dbconection dbcon = new dbconection();
-        emp employee = new emp();
+        Adminfile admin = new Adminfile();
+        Dbconection dbcon = new Dbconection();
+        Emp employee = new Emp();
 
         System.out.println("-------CORPORATE EMPLOYEE TRACKING APP------");
         Scanner sc = new Scanner(System.in);
