@@ -12,9 +12,9 @@ class connection extends Admin{
             System.out.println("1.class loaded");
 
             //connection establish
-            String url = "jdbc:mysql://localhost:3307/cet_project";
+            String url = "jdbc:mysql://localhost:3306/cet_project";
             String username="root";
-            String password="root";
+            String password="";
             cn = DriverManager.getConnection(url,username,password);
             System.out.println("2.Connection Established");
 
