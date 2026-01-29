@@ -76,8 +76,7 @@ public class Admin {
             System.out.println("6.View Reports");
             System.out.println("7.Add New Department");
             System.out.println("8.Add New Project");
-            System.out.println("9.close connection");
-            System.out.println("10.logout");
+            System.out.println("9.logout");
 
             System.out.println("Enter your choice");
             ch=sc.nextInt();
@@ -98,14 +97,12 @@ public class Admin {
                 case 7:adddept();
                         break;
                 case 8:addproject();
-                        break; 
-                case 9:closecn();
-                        break;                       
-                case 10:logout();
+                        break;                      
+                case 9:logout();
                         break;
                 default:System.out.println("Enter valid choice");                                                   
             }
-        } while (ch!=10);
+        } while (ch!=9);
     }
 
     //Add new Employees Logic
@@ -326,13 +323,6 @@ public class Admin {
         
         ps.executeUpdate();
         System.out.println("New Project Added..!");
-    }
-
-    //close connection
-    void closecn()throws SQLException
-    {
-        cn.close();
-        System.out.println("Connection closed..!");
     }
 
     //logout 
