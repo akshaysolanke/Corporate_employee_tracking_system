@@ -1,9 +1,10 @@
 
 import java.sql.*;
-import java.util.Scanner;
+import java.util.*;
 
 class connection extends Admin{
    
+    //Connection is Build Here
     void con() throws ClassNotFoundException, SQLException
     {
             //class loaded
@@ -30,6 +31,8 @@ public class Admin {
     Connection cn;
     Statement st;
     Scanner sc;
+
+    //Admin Access logic
     void access() throws SQLException,ClassNotFoundException
     {
         
@@ -58,17 +61,23 @@ public class Admin {
         }
         
     }
+
+    //All operations logic in switch case
     void operations()throws SQLException
     {   
       int ch;
         do { 
+            System.out.println("\n-------Admin Operations-------");
             System.out.println("1.Add employee");
             System.out.println("2.delete employee");
             System.out.println("3.update employee");//dept,proj,atten
             System.out.println("4.Assign project to Employee");
             System.out.println("5.Assign Department to Employee");
             System.out.println("6.View Reports");
-            System.out.println("7.logout");
+            System.out.println("7.Add New Department");
+            System.out.println("8.Add New Project");
+            System.out.println("9.close connection");
+            System.out.println("10.logout");
 
             System.out.println("Enter your choice");
             ch=sc.nextInt();
@@ -86,12 +95,20 @@ public class Admin {
                         break;
                 case 6: viewrepo();
                         break;
-                case 7:logout();
+                case 7:adddept();
+                        break;
+                case 8:addproject();
+                        break; 
+                case 9:closecn();
+                        break;                       
+                case 10:logout();
                         break;
                 default:System.out.println("Enter valid choice");                                                   
             }
-        } while (ch!=7);
+        } while (ch!=10);
     }
+
+    //Add new Employees Logic
     void addemp() throws SQLException
     {   
         String insert = "insert into employee values(?,?,?,?,?,?)";
@@ -130,29 +147,198 @@ public class Admin {
         }
         System.out.println("Employee Added..!\n\n");
     }
-    void delemp()
+
+    //Delete Employee Logic
+    void delemp()throws SQLException
     {
-        System.out.println("delete");
+        String delete="delete from employee where e_id=?";
+        PreparedStatement ps = cn.prepareStatement(delete);
+        System.out.println("Enter the Employee Id for delete employee record");
+        int id = sc.nextInt();
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        System.out.println("Record deleted...!");
+
     }
-    void updateemp()
+
+    //Update Employee Logic 
+    void updateemp()throws SQLException
     {
-        System.out.println("update");
+        int choices;
+        do { 
+        System.out.println("1.update project");
+        System.out.println("2.update department");
+        System.out.println("3.Exit from update");
+        System.out.println("Enter your choice");
+        choices = sc.nextInt();
+            switch(choices)
+            {
+                case 1:assignproj();
+                        break;
+                case 2:assigndept();
+                        break;
+                case 3:System.out.println("exited from upadate");        
+                default:System.out.println("Enter correct choice");                
+            }
+        } while (choices!=3);
     }
-    void assignproj()
+
+    //Assign projects to Employee Logic
+    void assignproj()throws SQLException
     {
-        System.out.println("proje");
+        
+        String project = "update employee set p_id = ? where e_id = ?";
+        PreparedStatement ps = cn.prepareStatement(project);
+        System.out.println("Enter project Id for Assign");
+        int pid = sc.nextInt();
+        System.out.println("Enter Employee Id for Assign");
+        int eid = sc.nextInt();
+        ps.setInt(1, pid);
+        ps.setInt(2, eid);
+        ps.executeUpdate();
+        System.out.println("Project Assigned..!");
+
     }
-    void assigndept()
+
+    //Assign Departments to Employee logic
+    void assigndept()throws SQLException
     {
-        System.out.println("dept");
+        String project = "update employee set d_id = ? where e_id = ?";
+        PreparedStatement ps = cn.prepareStatement(project);
+        System.out.println("Enter Department Id for Assign");
+        int did = sc.nextInt();
+        System.out.println("Enter Employee Id for Assign");
+        int eid = sc.nextInt();
+        ps.setInt(1, did);
+        ps.setInt(2, eid);
+        ps.executeUpdate();
+        System.out.println("Employee Department Updated..!");
+
     }
-    void viewrepo()
+
+    //View Reports logic
+    void viewrepo()throws SQLException
     {
-        System.out.println("report");
+        int ch;
+        do { 
+            System.out.println("\n-------View Reports-------");
+            System.out.println("1.Track Employee Attendance");
+            System.out.println("2.Track Project Report");
+            System.out.println("3.Exit from View Reports");
+            System.out.println("Enter your choice");
+            ch=sc.nextInt();
+            switch(ch)
+            {
+                case 1:trackattendance();
+                        break;
+                case 2:trackproject();
+                        break;
+                default:System.out.println("Enter Valid choice");                
+            }
+        } while (ch!=3);
     }
-    void logout()
+
+    //Track Employee Attendance
+    void trackattendance()throws SQLException
     {
-        System.out.println("logout successful..!");
+        System.out.println("Enter Employee Id For Track Attendance: ");
+        int id = sc.nextInt();
+        String sql = "select * from attendence where e_id = ?";
+        PreparedStatement ps =cn.prepareStatement(sql);
+
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        System.out.println("----Attendance details of Employee Id: "+id+"----");
+        System.out.println();
+        System.out.println("E_ID : A_DATE : A_STATUS");
+        while(rs.next())
+        {
+            System.out.println(rs.getInt("e_id")+" : "+rs.getDate("a_date")+" : "+rs.getString("a_status"));
+        }
+        
+    }
+
+    //Track Project Details
+    void trackproject()throws SQLException
+    {
+        System.out.println("Enter Project Id For Track Project Status: ");
+        int id = sc.nextInt();
+        String sql = "select * from project where p_id = ?";
+        PreparedStatement ps =cn.prepareStatement(sql);
+
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        System.out.println("----Project details of Project Id: "+id+"----");
+        System.out.println();
+        System.out.println("P_ID :------- P_NAME -------: START_DATE : P_STATUS : END_DATE");
+        while(rs.next())
+        {
+            System.out.println(rs.getInt("p_id")+" : "+rs.getString("pname")+" : "+rs.getDate("startdt")+" : "+rs.getString("p_status")+" : "+rs.getDate("enddt"));
+        }
+        System.out.println("--------------------------------------------------------------------");
+    }
+
+    //Add Department Logic
+    void adddept()throws SQLException
+    {
+        String adddept = "insert into department values(?,?,?)";
+        PreparedStatement ps = cn.prepareStatement(adddept);
+        System.out.println("Enter Department Id: ");
+        int id = sc.nextInt();
+        System.out.println("Enter Department Name: ");
+        String name = sc.next();
+        System.out.println("Enter Department Head Name: ");
+        String dname = sc.next();
+        ps.setInt(1, id);
+        ps.setString(2, name);
+        ps.setString(3, dname);
+        ps.executeUpdate();
+        System.out.println("department Added..!");
+
+    }
+
+    //Add project logic
+    void addproject()throws SQLException
+    {
+    String sql = "insert into project (p_id, pname, startdt, p_status, enddt) values (?,?,?,?,?)";
+    PreparedStatement ps = cn.prepareStatement(sql);
+
+    System.out.print("Enter Project Id: ");
+    int id = sc.nextInt();
+
+    System.out.print("Enter Project Name: ");
+    String name = sc.next();
+
+    System.out.print("Enter Project Start Date (yyyymmdd): ");
+    int sdate = sc.nextInt();
+
+    System.out.print("Enter Project Status: ");
+    String status = sc.next();
+
+    System.out.print("Enter Project End Date (yyyymmdd): ");
+    int edate = sc.nextInt();
+
+    ps.setInt(1, id);
+    ps.setString(2, name);
+    ps.setInt(3, sdate);
+    ps.setString(4, status);
+    ps.setInt(5, edate);
+        
+        ps.executeUpdate();
+        System.out.println("New Project Added..!");
+    }
+
+    //close connection
+    void closecn()throws SQLException
+    {
+        cn.close();
+        System.out.println("Connection closed..!");
+    }
+
+    //logout 
+    void logout()throws SQLException
+    {   
+        System.out.println("logout successful..!");   
     }
     public static void main(String[] args) throws Exception,ClassNotFoundException {
         connection e= new connection();
