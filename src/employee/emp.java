@@ -1,12 +1,17 @@
+package employee;
+import attendance.AttendanceMain;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Employee extends connection {
+public class emp {
 
     Scanner sc = new Scanner(System.in);
+    AttendanceMain attendence = new AttendanceMain();
+    Connection cn;
+    Statement st;
 
     // EMPLOYEE MENU
-    void employeeMenu() throws Exception {
+    public void employeeMenu() throws Exception {
 
         while (true) {
             System.out.println("\n--- EMPLOYEE MENU ---");
@@ -14,7 +19,8 @@ public class Employee extends connection {
             System.out.println("2. View Project");
             System.out.println("3. View Department");
             System.out.println("4. Check Attendance");
-            System.out.println("5. Exit");
+            System.out.println("5. give Attendance");
+            System.out.println("6. Exit");
 
             int choice = sc.nextInt();
 
@@ -23,7 +29,8 @@ public class Employee extends connection {
                 case 2 -> viewProject();
                 case 3 -> viewDepartment();
                 case 4 -> checkAttendance();
-                case 5 -> {
+                case 5 -> attendence.atten();
+                case 6 -> {
                     System.out.println("Thank You");
                     return;
                 }
@@ -33,25 +40,25 @@ public class Employee extends connection {
     }
 
     // 1️View Personal Details
-    void viewPersonalDetails() throws Exception {
+   public void viewPersonalDetails() throws Exception {
 
         System.out.print("Enter Employee ID: ");
         int eid = sc.nextInt();
 
-        String q = "SELECT name,email,role FROM employee WHERE eid=" + eid;
+        String q = "SELECT ename,email,erole FROM employee WHERE eid=" + eid;
         ResultSet rs = st.executeQuery(q);
 
         if (rs.next()) {
-            System.out.println("Name  : " + rs.getString("name"));
+            System.out.println("Name  : " + rs.getString("ename"));
             System.out.println("Email : " + rs.getString("email"));
-            System.out.println("Role  : " + rs.getString("role"));
+            System.out.println("Role  : " + rs.getString("erole"));
         } else {
             System.out.println("Employee not found");
         }
     }
 
     // 2️ View Project
-    void viewProject() throws Exception {
+   public void viewProject() throws Exception {
 
         System.out.print("Enter Employee ID: ");
         int eid = sc.nextInt();
@@ -71,7 +78,7 @@ public class Employee extends connection {
     }
 
     // 3️View Department
-    void viewDepartment() throws Exception {
+   public void viewDepartment() throws Exception {
 
         System.out.print("Enter Employee ID: ");
         int eid = sc.nextInt();
@@ -92,7 +99,7 @@ public class Employee extends connection {
     }
 
     // 4️Check Attendance
-    void checkAttendance() throws Exception {
+   public void checkAttendance() throws Exception {
 
         System.out.print("Enter Employee ID: ");
         int eid = sc.nextInt();
@@ -106,12 +113,5 @@ public class Employee extends connection {
         }
     }
 
-    // MAIN METHOD (STEP 9)
-    public static void main(String[] args) throws Exception {
 
-        Employee emp = new Employee();
-
-        emp.con();          // 🔥 connection establish
-        emp.employeeMenu(); // 🔥 employee module start
-    }
 }
