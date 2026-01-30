@@ -61,3 +61,18 @@ lib/*.jar
 # Environment variables
 .env
 .env.local
+
+# Compiled Java files
+*.class
+bin/
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# Ignore DB connection class
+src/app/Dbconection.java
