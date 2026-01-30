@@ -1,4 +1,5 @@
 package employee;
+import app.Dbconection;
 import attendance.AttendanceMain;
 import java.sql.*;
 import java.util.Scanner;
@@ -8,10 +9,12 @@ public class Emp {
     Scanner sc = new Scanner(System.in);
     AttendanceMain attendence = new AttendanceMain();
     Connection cn;
-    Statement st;
+     Statement st;
 
     // EMPLOYEE MENU
     public void employeeMenu() throws Exception {
+        cn = Dbconection.con();
+        st=cn.createStatement();
 
         while (true) {
             System.out.println("\n--- EMPLOYEE MENU ---");

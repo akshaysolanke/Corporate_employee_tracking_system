@@ -8,12 +8,13 @@ import java.util.Scanner;
 
 public class Mainfile {
    
-    Connection cn;
+    private static Connection cn;
     Scanner sc;
     public static void main(String[] args) throws ClassNotFoundException, SQLException,Exception {
         
+       // Dbconection dbcon = new Dbconection();
+        cn = Dbconection.con();
         Adminfile admin = new Adminfile();
-        Dbconection dbcon = new Dbconection();
         Emp employee = new Emp();
 
         System.out.println("-------CORPORATE EMPLOYEE TRACKING APP------");
@@ -28,11 +29,11 @@ public class Mainfile {
            ch = sc.nextInt();
             switch(ch)
             {
-                case 1: dbcon.con();
+                case 1:// dbcon.con();
                         admin.access();
                         break;
 
-                case 2: dbcon.con();
+                case 2: //dbcon.con();
                         employee.employeeMenu();
                         break; 
 
@@ -42,5 +43,7 @@ public class Mainfile {
                 default:System.out.println("Enter correct choice");
             }
           } while (ch!=3);
+        cn.close();
+        System.out.println("connection closed");
     }
 }

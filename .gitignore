@@ -73,3 +73,6 @@ bin/
 
 # VS Code
 .vscode/
+
+# Ignore DB connection class
+src/app/Dbconection.java

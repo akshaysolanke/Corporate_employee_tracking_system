@@ -1,5 +1,5 @@
 package admin;
-
+import app.Dbconection;
 import java.sql.*;
 import java.util.*;
 
@@ -7,13 +7,15 @@ public class Adminfile {
 
     Connection cn;
     Scanner sc;
-    Statement st;
-    
+ 
     //Admin Access logic
    public void access() throws SQLException,ClassNotFoundException
     {
-        
+       
         sc = new Scanner(System.in);
+        cn = Dbconection.con();
+        Statement st = cn.createStatement();
+      //  System.out.println(cn);
         String query = "select username, passwords from admin";
         ResultSet rs = st.executeQuery(query);
  
@@ -140,9 +142,11 @@ public class Adminfile {
     {
         int choices;
         do { 
-        System.out.println("1.update project");
-        System.out.println("2.update department");
-        System.out.println("3.Exit from update");
+        System.out.println();    
+        System.out.println("----Update Operations----");    
+        System.out.println("1.update Employee project");
+        System.out.println("2.update Employee department");
+        System.out.println("3.Exit from update operations");
         System.out.println("Enter your choice");
         choices = sc.nextInt();
             switch(choices)
@@ -170,7 +174,7 @@ public class Adminfile {
         ps.setInt(1, pid);
         ps.setInt(2, eid);
         ps.executeUpdate();
-        System.out.println("Project Assigned..!");
+        System.out.println("Employee Project Updated..!");
 
     }
 
@@ -195,7 +199,7 @@ public class Adminfile {
     {
         int ch;
         do { 
-            System.out.println("\n-------View Reports-------");
+            System.out.println("\n-------View Reports Operations-------");
             System.out.println("1.Track Employee Attendance");
             System.out.println("2.Track Project Report");
             System.out.println("3.Exit from View Reports");
@@ -224,12 +228,12 @@ public class Adminfile {
         ResultSet rs = ps.executeQuery();
         System.out.println("----Attendance details of Employee Id: "+id+"----");
         System.out.println();
-        System.out.println("E_ID : A_DATE : A_STATUS");
+
         while(rs.next())
         {
-            System.out.println(rs.getInt("e_id")+" : "+rs.getDate("a_date")+" : "+rs.getString("a_status"));
+            System.out.println("Attendance Id: "+rs.getInt("a_id")+"\n Employee Id: "+rs.getInt("e_id")+"\n Attendance Date: "+rs.getDate("a_date")+"\n Status: "+rs.getString("a_status"));
         }
-        
+        System.out.println("--------------------------------------------------------------------");
     }
 
     //Track Project Details
@@ -244,10 +248,9 @@ public class Adminfile {
         ResultSet rs = ps.executeQuery();
         System.out.println("----Project details of Project Id: "+id+"----");
         System.out.println();
-        System.out.println("P_ID :------- P_NAME -------: START_DATE : P_STATUS : END_DATE");
         while(rs.next())
         {
-            System.out.println(rs.getInt("p_id")+" : "+rs.getString("pname")+" : "+rs.getDate("startdt")+" : "+rs.getString("p_status")+" : "+rs.getDate("enddt"));
+            System.out.println("Project Id: "+rs.getInt("p_id")+"\n Project Name: "+rs.getString("pname")+"\n Start Date: "+rs.getDate("startdt")+"\n Status: "+rs.getString("p_status")+"\n End Date: "+rs.getDate("enddt"));
         }
         System.out.println("--------------------------------------------------------------------");
     }
@@ -305,7 +308,8 @@ public class Adminfile {
     //logout 
     void logout()throws SQLException
     {   
-        System.out.println("logout successful..!");   
+        System.out.println("logout successful..!"); 
+    
     }
  
 }
