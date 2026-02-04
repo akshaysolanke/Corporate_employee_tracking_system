@@ -4,30 +4,34 @@ import app.Dbconection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AttendanceDAO {
-
-	    Dbconection db = new Dbconection();   
-	    Connection con;
+  
+	    Connection cn;
 		Scanner sc = new Scanner(System.in);
+		AttendanceDAO() throws ClassNotFoundException, SQLException
+		{
+			this.cn=Dbconection.con();
+		}
+		
 	    // Mark Attendance
 	    public void markAttendance() {
+	    	
 	        try {
-//	            con = db.con();   
-
-	            String sql = "INSERT INTO attendence(e_id, a_date, a_status) VALUES(?,?,?)";
-	            PreparedStatement ps = con.prepareStatement(sql);
-
+ 
+	            String sql = "INSERT INTO attendence (e_id, a_date, a_status) VALUES(?,?,?)";
+	            PreparedStatement ps = cn.prepareStatement(sql);
+	            
 				System.out.print("Enter Employee ID: ");
 	            int empId = sc.nextInt();
 
-	            System.out.print("Enter Date (yyyy-mm-dd): ");
+	            System.out.print("Enter Date (yyyymmdd): ");
 	            String date = sc.next();
 
 	            System.out.print("Enter Status (Present/Absent/Leave): ");
 	            String status = sc.next();
-
 	            ps.setInt(1, empId);
 	            ps.setString(2, date);
 	            ps.setString(3, status);
@@ -40,18 +44,20 @@ public class AttendanceDAO {
 	        }
 	    }
 
-	    // View Employee Attendance
+	    // View Employee  one day Attendance
 	    public void viewAttendanceByEmployee() {
 
 	        try {
-//	 			con = db.con();   
-
-	            String sql = "SELECT a_date, a_status FROM attendence WHERE a_date=?";
-	            PreparedStatement ps = con.prepareStatement(sql);
-
+	            String sql = "SELECT a_date, a_status FROM attendence WHERE e_id=? and a_date=?";
+	            PreparedStatement ps = cn.prepareStatement(sql);
+	            
+	            System.out.print("Enter eid : ");
+	            int eid = sc.nextInt();
+	            
 				System.out.print("Enter date : ");
 	            int dt = sc.nextInt();
-	            ps.setInt(1, dt);
+	            ps.setInt(1, eid);
+	            ps.setInt(2, dt);
 
 	            ResultSet rs = ps.executeQuery();
 
@@ -69,10 +75,9 @@ public class AttendanceDAO {
 	    public void viewAllAttendance() {
 
 	        try {
-//					 con = db.con();   
 
 	            String sql = "SELECT e_id, a_date, a_status FROM attendence where e_id=?";
-	            PreparedStatement ps = con.prepareStatement(sql);
+	            PreparedStatement ps = cn.prepareStatement(sql);
 
 				System.out.print("Enter Employee Id : ");
 	            int eid = sc.nextInt();
