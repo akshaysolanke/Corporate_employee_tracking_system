@@ -76,3 +76,7 @@ bin/
 
 # Ignore DB connection class
 src/app/Dbconection.java
+
+*.class
+bin/
+target/
