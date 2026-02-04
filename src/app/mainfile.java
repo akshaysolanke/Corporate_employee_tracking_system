@@ -12,7 +12,6 @@ public class Mainfile {
     Scanner sc;
     public static void main(String[] args) throws ClassNotFoundException, SQLException,Exception {
         
-       // Dbconection dbcon = new Dbconection();
         cn = Dbconection.con();
         Adminfile admin = new Adminfile();
         Emp employee = new Emp();
@@ -29,12 +28,12 @@ public class Mainfile {
            ch = sc.nextInt();
             switch(ch)
             {
-                case 1:// dbcon.con();
+                case 1:
                         admin.access();
                         break;
 
-                case 2: //dbcon.con();
-                        employee.employeeMenu();
+                case 2:
+                        employee.userlogin();
                         break; 
 
                 case 3: System.out.println("Exited from project"); 

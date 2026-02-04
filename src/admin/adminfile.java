@@ -7,15 +7,19 @@ public class Adminfile {
 
     Connection cn;
     Scanner sc;
- 
+    //here i get access of cn using constructor
+   public Adminfile() throws ClassNotFoundException, SQLException
+    {
+    		this.cn = Dbconection.con();
+    }
+   
     //Admin Access logic
    public void access() throws SQLException,ClassNotFoundException
     {
        
         sc = new Scanner(System.in);
-        cn = Dbconection.con();
         Statement st = cn.createStatement();
-      //  System.out.println(cn);
+
         String query = "select username, passwords from admin";
         ResultSet rs = st.executeQuery(query);
  
@@ -49,7 +53,7 @@ public class Adminfile {
             System.out.println("\n-------Admin Operations-------");
             System.out.println("1.Add employee");
             System.out.println("2.delete employee");
-            System.out.println("3.update employee");//dept,proj,atten
+            System.out.println("3.update employee");
             System.out.println("4.Assign project to Employee");
             System.out.println("5.Assign Department to Employee");
             System.out.println("6.View Reports");
@@ -87,21 +91,25 @@ public class Adminfile {
     //Add new Employees Logic
     void addemp() throws SQLException
     {   
-        String insert = "insert into employee values(?,?,?,?,?,?)";
+        String insert = "insert into employee(ename,email,username,passwords,erole,p_id,d_id) values(?,?,?,?,?,?,?)";
         PreparedStatement ps = cn.prepareStatement(insert);
         System.out.println("Enter no of employees to add");
         int n = sc.nextInt();
         for(int i=0;i<n;i++)
         {
             System.out.println("Enter "+(i+1)+" Employee details: ");
-            System.out.println("Enter Employee ID: ");
-            int id = sc.nextInt();
 
             System.out.println("Enter Employee Name: ");
             String name = sc.next();
 
             System.out.println("Enter Employee Email: ");
             String email = sc.next();
+            
+            System.out.println("Set Employee username: ");
+            String  uname = sc.next();
+            
+            System.out.println("Set Employee password: ");
+            String pass = sc.next();
 
             System.out.println("Enter Employee Role: ");
             String  role = sc.next();
@@ -112,12 +120,13 @@ public class Adminfile {
             System.out.println("Enter Employee Department ID: ");
             int did = sc.nextInt();
 
-            ps.setInt(1, id);
-            ps.setString(2, name);
-            ps.setString(3, email);
-            ps.setString(4, role);
-            ps.setInt(5, pid);
-            ps.setInt(6, did);
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, uname);
+            ps.setString(4, pass);
+            ps.setString(5, role);
+            ps.setInt(6, pid);
+            ps.setInt(7, did);
             ps.executeUpdate();
 
         }
@@ -231,7 +240,7 @@ public class Adminfile {
 
         while(rs.next())
         {
-            System.out.println("Attendance Id: "+rs.getInt("a_id")+"\n Employee Id: "+rs.getInt("e_id")+"\n Attendance Date: "+rs.getDate("a_date")+"\n Status: "+rs.getString("a_status"));
+            System.out.println(" Attendance Id: "+rs.getInt("a_id")+"\n Employee Id: "+rs.getInt("e_id")+"\n Attendance Date: "+rs.getDate("a_date")+"\n Status: "+rs.getString("a_status")+"\n");
         }
         System.out.println("--------------------------------------------------------------------");
     }
@@ -250,7 +259,7 @@ public class Adminfile {
         System.out.println();
         while(rs.next())
         {
-            System.out.println("Project Id: "+rs.getInt("p_id")+"\n Project Name: "+rs.getString("pname")+"\n Start Date: "+rs.getDate("startdt")+"\n Status: "+rs.getString("p_status")+"\n End Date: "+rs.getDate("enddt"));
+            System.out.println(" Project Id: "+rs.getInt("p_id")+"\n Project Name: "+rs.getString("pname")+"\n Start Date: "+rs.getDate("startdt")+"\n Status: "+rs.getString("p_status")+"\n End Date: "+rs.getDate("enddt"));
         }
         System.out.println("--------------------------------------------------------------------");
     }
@@ -258,17 +267,16 @@ public class Adminfile {
     //Add Department Logic
     void adddept()throws SQLException
     {
-        String adddept = "insert into department values(?,?,?)";
+        String adddept = "insert into department(d_name,d_head)values(?,?)";
         PreparedStatement ps = cn.prepareStatement(adddept);
-        System.out.println("Enter Department Id: ");
-        int id = sc.nextInt();
+        
         System.out.println("Enter Department Name: ");
         String name = sc.next();
         System.out.println("Enter Department Head Name: ");
         String dname = sc.next();
-        ps.setInt(1, id);
-        ps.setString(2, name);
-        ps.setString(3, dname);
+    
+        ps.setString(1, name);
+        ps.setString(2, dname);
         ps.executeUpdate();
         System.out.println("department Added..!");
 
@@ -277,11 +285,8 @@ public class Adminfile {
     //Add project logic
     void addproject()throws SQLException
     {
-    String sql = "insert into project (p_id, pname, startdt, p_status, enddt) values (?,?,?,?,?)";
+    String sql = "insert into project (pname, startdt, p_status, enddt) values (?,?,?,?)";
     PreparedStatement ps = cn.prepareStatement(sql);
-
-    System.out.print("Enter Project Id: ");
-    int id = sc.nextInt();
 
     System.out.print("Enter Project Name: ");
     String name = sc.next();
@@ -295,11 +300,10 @@ public class Adminfile {
     System.out.print("Enter Project End Date (yyyymmdd): ");
     int edate = sc.nextInt();
 
-    ps.setInt(1, id);
-    ps.setString(2, name);
-    ps.setInt(3, sdate);
-    ps.setString(4, status);
-    ps.setInt(5, edate);
+    ps.setString(1, name);
+    ps.setInt(2, sdate);
+    ps.setString(3, status);
+    ps.setInt(4, edate);
         
         ps.executeUpdate();
         System.out.println("New Project Added..!");

@@ -1,15 +1,19 @@
 package attendance;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import app.Dbconection;
+
 public class AttendanceMain {
-	
-		public void atten()
+
+		public void atten() throws ClassNotFoundException, SQLException
 		{
 			AttendanceDAO dao = new AttendanceDAO();
 	        Scanner sc = new Scanner(System.in);
-
-	        while (true) {
+	        int choice ;
+	       do{
 
 	            System.out.println("\n---- Attendance Module ----");
 	            System.out.println("1. Mark Attendance");
@@ -18,7 +22,7 @@ public class AttendanceMain {
 	            System.out.println("4. Exit");
 
 	            System.out.print("Enter your choice: ");
-	            int choice = sc.nextInt();
+	            choice = sc.nextInt();
 
 	            switch (choice) {
 
@@ -33,11 +37,11 @@ public class AttendanceMain {
 
 	                case 4:
 	                    System.out.println("Program Ended");
-	                    System.exit(0);
+	                    break;
 
 	                default:
 	                    System.out.println("Invalid Choice");
 	            }
-	        }
+	        }while(choice!=4);
 	    }
 }
